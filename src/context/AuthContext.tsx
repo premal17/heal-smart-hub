@@ -103,14 +103,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     try {
       // In development mode, use mock registration
-      if (process.env.NODE_ENV === 'development' && !import.meta.env.VITE_USE_API) {
+      if (process.env.NODE_ENV === 'development' || !import.meta.env.VITE_USE_API) {
         // Check if email is already in use
         const existingUser = MOCK_USERS.find((u) => u.email === email);
         if (existingUser) {
           throw new Error('Email already in use');
         }
         
-        // In a real app, this would be an API call to register the user
+        // Create a new mock user
         const newUser = {
           id: Math.random().toString(36).substr(2, 9),
           name,
@@ -129,18 +129,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           title: 'Registration successful',
           description: `Welcome to Smart Clinic, ${name}!`,
         });
+
+        return newUser;
       } else {
         // Use the actual API for registration
-        const userData = await authService.register(name, email, password, role);
-        setUser(userData);
-        
-        // Store user in localStorage
-        localStorage.setItem('smartClinicUser', JSON.stringify(userData));
-        
-        toast({
-          title: 'Registration successful',
-          description: `Welcome to Smart Clinic, ${name}!`,
-        });
+        try {
+          const userData = await authService.register(name, email, password, role);
+          setUser(userData);
+          
+          // Store user in localStorage
+          localStorage.setItem('smartClinicUser', JSON.stringify(userData));
+          
+          toast({
+            title: 'Registration successful',
+            description: `Welcome to Smart Clinic, ${name}!`,
+          });
+
+          return userData;
+        } catch (apiError) {
+          console.error("API registration error:", apiError);
+          throw new Error("Registration failed: Unable to connect to the server");
+        }
       }
     } catch (error) {
       toast({
