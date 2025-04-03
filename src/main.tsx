@@ -4,6 +4,9 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
+// Note: The app connects to a Python backend with PostgreSQL database
+// Backend API URL can be configured in the environment variables
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />

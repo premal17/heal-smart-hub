@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { AuthContextType, User, UserRole } from '@/types';
+import { authService } from '@/services/api';
 
 // Mock users for development (in a real app, this would be handled by backend)
 const MOCK_USERS = [
@@ -51,26 +52,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(true);
     
     try {
-      // Mock authentication (replace with actual API call)
-      const foundUser = MOCK_USERS.find(
-        (u) => u.email === email && u.password === password
-      );
-      
-      if (!foundUser) {
-        throw new Error('Invalid email or password');
+      // In development mode, use mock authentication
+      if (process.env.NODE_ENV === 'development' && !import.meta.env.VITE_USE_API) {
+        const foundUser = MOCK_USERS.find(
+          (u) => u.email === email && u.password === password
+        );
+        
+        if (!foundUser) {
+          throw new Error('Invalid email or password');
+        }
+        
+        // Remove password from user object
+        const { password: _, ...userWithoutPassword } = foundUser;
+        setUser(userWithoutPassword as User);
+        
+        // Store user in localStorage
+        localStorage.setItem('smartClinicUser', JSON.stringify(userWithoutPassword));
+        
+        toast({
+          title: 'Login successful',
+          description: `Welcome back, ${foundUser.name}!`,
+        });
+      } else {
+        // Use the actual API for authentication
+        const userData = await authService.login(email, password);
+        setUser(userData);
+        
+        // Store user in localStorage
+        localStorage.setItem('smartClinicUser', JSON.stringify(userData));
+        
+        toast({
+          title: 'Login successful',
+          description: `Welcome back, ${userData.name}!`,
+        });
       }
-      
-      // Remove password from user object
-      const { password: _, ...userWithoutPassword } = foundUser;
-      setUser(userWithoutPassword as User);
-      
-      // Store user in localStorage
-      localStorage.setItem('smartClinicUser', JSON.stringify(userWithoutPassword));
-      
-      toast({
-        title: 'Login successful',
-        description: `Welcome back, ${foundUser.name}!`,
-      });
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -87,31 +102,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoading(true);
     
     try {
-      // Check if email is already in use
-      const existingUser = MOCK_USERS.find((u) => u.email === email);
-      if (existingUser) {
-        throw new Error('Email already in use');
+      // In development mode, use mock registration
+      if (process.env.NODE_ENV === 'development' && !import.meta.env.VITE_USE_API) {
+        // Check if email is already in use
+        const existingUser = MOCK_USERS.find((u) => u.email === email);
+        if (existingUser) {
+          throw new Error('Email already in use');
+        }
+        
+        // In a real app, this would be an API call to register the user
+        const newUser = {
+          id: Math.random().toString(36).substr(2, 9),
+          name,
+          email,
+          role,
+          createdAt: new Date().toISOString(),
+        };
+        
+        // Add to mock users (in a real app, this would be handled by the backend)
+        MOCK_USERS.push({ ...newUser, password });
+        
+        setUser(newUser);
+        localStorage.setItem('smartClinicUser', JSON.stringify(newUser));
+        
+        toast({
+          title: 'Registration successful',
+          description: `Welcome to Smart Clinic, ${name}!`,
+        });
+      } else {
+        // Use the actual API for registration
+        const userData = await authService.register(name, email, password, role);
+        setUser(userData);
+        
+        // Store user in localStorage
+        localStorage.setItem('smartClinicUser', JSON.stringify(userData));
+        
+        toast({
+          title: 'Registration successful',
+          description: `Welcome to Smart Clinic, ${name}!`,
+        });
       }
-      
-      // In a real app, this would be an API call to register the user
-      const newUser = {
-        id: Math.random().toString(36).substr(2, 9),
-        name,
-        email,
-        role,
-        createdAt: new Date().toISOString(),
-      };
-      
-      // Add to mock users (in a real app, this would be handled by the backend)
-      MOCK_USERS.push({ ...newUser, password });
-      
-      setUser(newUser);
-      localStorage.setItem('smartClinicUser', JSON.stringify(newUser));
-      
-      toast({
-        title: 'Registration successful',
-        description: `Welcome to Smart Clinic, ${name}!`,
-      });
     } catch (error) {
       toast({
         variant: 'destructive',
