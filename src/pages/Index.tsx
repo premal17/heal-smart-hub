@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -217,13 +218,13 @@ const Index = () => {
                 <h3 className="text-sm font-semibold mb-3">Product</h3>
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">Features</a>
+                    <Link to="/#features" className="text-clinic-text-secondary hover:text-clinic-primary">Features</Link>
                   </li>
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">Pricing</a>
+                    <Link to="/pricing" className="text-clinic-text-secondary hover:text-clinic-primary">Pricing</Link>
                   </li>
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">FAQ</a>
+                    <Link to="/faq" className="text-clinic-text-secondary hover:text-clinic-primary">FAQ</Link>
                   </li>
                 </ul>
               </div>
@@ -231,13 +232,13 @@ const Index = () => {
                 <h3 className="text-sm font-semibold mb-3">Company</h3>
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">About</a>
+                    <Link to="/about" className="text-clinic-text-secondary hover:text-clinic-primary">About</Link>
                   </li>
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">Blog</a>
+                    <Link to="/blog" className="text-clinic-text-secondary hover:text-clinic-primary">Blog</Link>
                   </li>
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">Careers</a>
+                    <Link to="/careers" className="text-clinic-text-secondary hover:text-clinic-primary">Careers</Link>
                   </li>
                 </ul>
               </div>
@@ -245,10 +246,10 @@ const Index = () => {
                 <h3 className="text-sm font-semibold mb-3">Legal</h3>
                 <ul className="space-y-2 text-sm">
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">Privacy</a>
+                    <Link to="/privacy" className="text-clinic-text-secondary hover:text-clinic-primary">Privacy</Link>
                   </li>
                   <li>
-                    <a href="#" className="text-clinic-text-secondary hover:text-clinic-primary">Terms</a>
+                    <Link to="/terms" className="text-clinic-text-secondary hover:text-clinic-primary">Terms</Link>
                   </li>
                 </ul>
               </div>
