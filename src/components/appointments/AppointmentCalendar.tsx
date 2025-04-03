@@ -10,10 +10,10 @@ import { useToast } from "@/components/ui/use-toast";
 
 // Mock data for doctors and time slots
 const DOCTORS = [
-  { id: "1", name: "Dr. Jane Smith", specialty: "Family Medicine" },
-  { id: "2", name: "Dr. Mark Johnson", specialty: "Cardiology" },
-  { id: "3", name: "Dr. Sarah Williams", specialty: "Pediatrics" },
-  { id: "4", name: "Dr. Robert Brown", specialty: "Dermatology" },
+  { id: "1", name: "Dr. Priya Sharma", specialty: "Family Medicine" },
+  { id: "2", name: "Dr. Arjun Patel", specialty: "Cardiology" },
+  { id: "3", name: "Dr. Neha Verma", specialty: "Pediatrics" },
+  { id: "4", name: "Dr. Vikram Desai", specialty: "Dermatology" },
 ];
 
 const TIME_SLOTS = [
@@ -51,7 +51,7 @@ const AppointmentCalendar = () => {
 
     toast({
       title: "Appointment Booked",
-      description: `Your appointment has been scheduled for ${selectedDate.toLocaleDateString()} at ${selectedTime}.`,
+      description: `Your appointment has been scheduled for ${selectedDate.toLocaleDateString()} at ${selectedTime}. Consultation fee: ₹500.`,
     });
 
     // Reset form and close dialog
@@ -99,6 +99,7 @@ const AppointmentCalendar = () => {
                   <DialogTitle>Book an Appointment</DialogTitle>
                   <DialogDescription>
                     Fill out the information below to schedule your appointment.
+                    <p className="mt-1 font-medium text-sm">Consultation Fee: ₹500</p>
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -114,8 +115,8 @@ const AppointmentCalendar = () => {
                     <label className="text-right text-sm font-medium col-span-1">
                       Doctor
                     </label>
-                    <Select value={selectedDoctor} onValueChange={setSelectedDoctor} className="col-span-3">
-                      <SelectTrigger>
+                    <Select value={selectedDoctor} onValueChange={setSelectedDoctor}>
+                      <SelectTrigger className="col-span-3">
                         <SelectValue placeholder="Select a doctor" />
                       </SelectTrigger>
                       <SelectContent>
@@ -131,8 +132,8 @@ const AppointmentCalendar = () => {
                     <label className="text-right text-sm font-medium col-span-1">
                       Time
                     </label>
-                    <Select value={selectedTime} onValueChange={setSelectedTime} className="col-span-3">
-                      <SelectTrigger>
+                    <Select value={selectedTime} onValueChange={setSelectedTime}>
+                      <SelectTrigger className="col-span-3">
                         <SelectValue placeholder="Select a time slot" />
                       </SelectTrigger>
                       <SelectContent>
@@ -159,7 +160,7 @@ const AppointmentCalendar = () => {
                 <DialogFooter>
                   <Button variant="outline" onClick={() => setDialogOpen(false)}>Cancel</Button>
                   <Button className="bg-clinic-primary hover:bg-clinic-secondary" onClick={handleBookAppointment}>
-                    Book Appointment
+                    Book Appointment (₹500)
                   </Button>
                 </DialogFooter>
               </DialogContent>

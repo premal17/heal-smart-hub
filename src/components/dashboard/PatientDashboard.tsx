@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const UPCOMING_APPOINTMENTS = [
   {
     id: "1",
-    doctorName: "Dr. Jane Smith",
+    doctorName: "Dr. Priya Sharma",
     specialty: "Family Medicine",
     date: "2023-06-15",
     time: "10:00 AM",
@@ -16,7 +16,7 @@ const UPCOMING_APPOINTMENTS = [
   },
   {
     id: "2",
-    doctorName: "Dr. Mark Johnson",
+    doctorName: "Dr. Arjun Patel",
     specialty: "Cardiology",
     date: "2023-06-22",
     time: "2:30 PM",
