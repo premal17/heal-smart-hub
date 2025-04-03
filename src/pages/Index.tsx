@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -193,11 +192,11 @@ const Index = () => {
             </div>
             <div>
               <h3 className="font-semibold mb-2">Phone</h3>
-              <p className="text-clinic-text-secondary">+1 (555) 123-4567</p>
+              <p className="text-clinic-text-secondary">+91 (987) 654-3210</p>
             </div>
             <div>
               <h3 className="font-semibold mb-2">Address</h3>
-              <p className="text-clinic-text-secondary">123 Healthcare Ave, Medical City</p>
+              <p className="text-clinic-text-secondary">123 Healthcare Ave, Mumbai, India</p>
             </div>
           </div>
         </div>
