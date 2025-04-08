@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +16,8 @@ const Profile = () => {
   
   const [name, setName] = useState(user?.name || "");
   const [email, setEmail] = useState(user?.email || "");
-  const [phone, setPhone] = useState("555-123-4567"); // Mock data
+  const [phoneCountryCode, setPhoneCountryCode] = useState("+91"); // Default country code
+  const [phoneNumber, setPhoneNumber] = useState("5551234567"); // Main phone number
   const [specialty, setSpecialty] = useState("Cardiology"); // For doctors
   const [experience, setExperience] = useState("15"); // For doctors
   const [age, setAge] = useState("42"); // For patients
@@ -25,10 +25,12 @@ const Profile = () => {
   const [medicalHistory, setMedicalHistory] = useState("No known conditions"); // For patients
   
   const handleSaveProfile = () => {
+    const fullPhoneNumber = `${phoneCountryCode}${phoneNumber}`;
+    
     // In a real app, this would send an API request to update the profile
     toast({
       title: "Profile Updated",
-      description: "Your profile information has been updated successfully.",
+      description: `Phone number updated to: ${fullPhoneNumber}`,
     });
   };
 
@@ -134,12 +136,22 @@ const Profile = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number</Label>
-                      <Input
-                        id="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="clinic-input"
-                      />
+                      <div className="flex space-x-2">
+                        <Input
+                          id="phoneCountryCode"
+                          value={phoneCountryCode}
+                          onChange={(e) => setPhoneCountryCode(e.target.value)}
+                          placeholder="+91"
+                          className="w-24 clinic-input"
+                        />
+                        <Input
+                          id="phone"
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                          placeholder="5551234567"
+                          className="flex-1 clinic-input"
+                        />
+                      </div>
                     </div>
                     
                     {user?.role === "patient" && (
@@ -236,9 +248,15 @@ const Profile = () => {
               </TabsContent>
             </Tabs>
           </CardContent>
+          
           <CardFooter className="flex justify-between border-t p-6">
             <Button variant="ghost">Cancel</Button>
-            <Button onClick={handleSaveProfile} className="bg-clinic-primary hover:bg-clinic-secondary">Save Changes</Button>
+            <Button 
+              onClick={handleSaveProfile} 
+              className="bg-clinic-primary hover:bg-clinic-secondary"
+            >
+              Save Changes
+            </Button>
           </CardFooter>
         </Card>
       </div>
