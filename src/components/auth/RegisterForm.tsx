@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -32,8 +31,10 @@ const RegisterForm = () => {
     setIsLoading(true);
     
     try {
-      await register(name, email, password, role);
-      navigate("/dashboard");
+      const user = await register(name, email, password, role);
+      if (user) {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error("Registration error:", error);
     } finally {
